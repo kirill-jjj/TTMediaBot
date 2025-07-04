@@ -8,7 +8,7 @@ import requests
 
 CLIENT_ID = "23cabbbdc6cd418abb4b39c32c41195d"
 CLIENT_SECRET = "53bc75238f0c4d08a118e51fe9203300"
-USER_AGENT = "Yandex-Music-API"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 HEADERS = {
     "X-Yandex-Music-Client": "YandexMusicAndroid/23020251",
     "USER_AGENT": USER_AGENT,

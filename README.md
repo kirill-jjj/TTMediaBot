@@ -9,7 +9,7 @@ A media streaming bot for TeamTalk.
 
 ### Installation
 * Download TTMediaBot;
-* install all python requirements from requirements.txt, using the "pip3 install -r requirements.txt" or just "pip install -r requirements.txt" command, without quotes;;
+* Install all python requirements using the command `uv sync`, without quotes;
 * Run ttsdk_downloader.py from the tools folder;
 * If you're using Windows run libmpv_win_downloader.py from the tools folder;
 * Copy or rename config_default.json to config.json;

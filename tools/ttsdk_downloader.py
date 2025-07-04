@@ -42,7 +42,7 @@ def get_url_suffix_from_platform() -> str:
 
 
 def download() -> None:
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36'}
     r = requests.get(url, headers=headers)
     page = bs4.BeautifulSoup(r.text, features="html.parser")
     # The last tested version series is v5.15x

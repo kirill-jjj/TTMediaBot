@@ -9,11 +9,12 @@ RUN apt update \
     && apt autoclean \
     && apt clean \
     && rm -rf /var/lib/apt/list
+RUN pip install uv
 RUN useradd -ms /bin/bash ttbot
 USER ttbot
 WORKDIR /home/ttbot
-COPY --chown=ttbot requirements.txt .
-RUN pip install -r requirements.txt
+COPY --chown=ttbot pyproject.toml .
+RUN uv sync --system
 COPY --chown=ttbot . .
-RUN python tools/ttsdk_downloader.py && python tools/compile_locales.py
+RUN uv run python tools/ttsdk_downloader.py && uv run python tools/compile_locales.py
 CMD pulseaudio --start && ./TTMediaBot.sh -c data/config.json --cache data/TTMediaBotCache.dat --log data/TTMediaBot.log
