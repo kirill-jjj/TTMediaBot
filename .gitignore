@@ -139,3 +139,5 @@ config.json
 .*env/
 TTSDK_license.txt
 event_handlers.py
+cookies.txt
+ttsdk.7z

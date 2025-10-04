@@ -1,5 +1,7 @@
 from typing import Optional
 
+import os
+import sys
 from os import path
 
 from argparse import ArgumentParser
@@ -7,6 +9,12 @@ from argparse import ArgumentParser
 from bot import Bot, app_vars
 from bot.config import save_default_file
 from bot.sound_devices import SoundDeviceManager
+
+# Add the project root to the PATH for libmpv.dll discovery
+project_root = os.path.dirname(os.path.abspath(__file__))
+if sys.platform == "win32":
+    os.environ["PATH"] = project_root + os.pathsep + os.environ["PATH"]
+    os.add_dll_directory(project_root)
 
 parser = ArgumentParser()
 parser.add_argument(

@@ -16,30 +16,29 @@ sys.path.append(path)
 import downloader
 
 
-url = "https://sourceforge.net/projects/mpv-player-windows/files/libmpv/"
+url = "https://api.github.com/repos/shinchiro/mpv-winbuild-cmake/releases/latest"
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36'}
 
-def get_page(url):
+def download():
     r = requests.get(url, headers=headers)
     r.raise_for_status()
-    return r.text
-
-def get_redirect_url(content):
-    bs = bs4.BeautifulSoup(content, features="html.parser")
-    meta_refresh = bs.find("meta", attrs={"http-equiv": "refresh"}).get("content")
-    url = meta_refresh.split("url=")[1]
-    return url
-
-def download():
-    downloads = get_page(url)
-    page = bs4.BeautifulSoup(downloads, features="html.parser")
-    table = page.find("table")
-    if platform.architecture()[0][0:2] == "64":
-        version_url = table.find("a", href=True, title=re.compile("x86_64-[^v]")).get("href")
-    else:
-        version_url = table.find("a", href=True, title=re.compile("i686-")).get("href")
-    download_page = get_page(version_url)
-    download_url = get_redirect_url(download_page)
+    release_info = r.json()
+    assets = release_info["assets"]
+    
+    arch = platform.architecture()[0][0:2]
+    
+    download_url = None
+    for asset in assets:
+        if arch == "64" and "x86_64" in asset["name"] and "mpv-dev" in asset["name"] and asset["name"].endswith(".7z"):
+            download_url = asset["browser_download_url"]
+            break
+        elif arch == "32" and "i686" in asset["name"] and "mpv-dev" in asset["name"] and asset["name"].endswith(".7z"):
+            download_url = asset["browser_download_url"]
+            break
+            
+    if not download_url:
+        sys.exit("Could not find a suitable libmpv download for your architecture.")
+        
     downloader.download_file(download_url, os.path.join(path, "libmpv.7z"))
 
 def extract():
@@ -56,7 +55,7 @@ def extract():
 
 def move_file():
     source = os.path.join(path, "libmpv", "libmpv-2.dll")
-    dest = os.path.join(path, "mpv.dll")
+    dest = os.path.join(path, "libmpv-2.dll")
     if os.path.exists(dest):
         os.remove(dest)
     shutil.move(source, dest)

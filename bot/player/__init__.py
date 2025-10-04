@@ -31,11 +31,7 @@ class Player:
             "ytdl": False,
         }
         mpv_options.update(self.config.player_options)
-        try:
-            self._player = mpv.MPV(**mpv_options, log_handler=self.log_handler)
-        except AttributeError:
-            del mpv_options["demuxer_max_back_bytes"]
-            self._player = mpv.MPV(**mpv_options, log_handler=self.log_handler)
+        self._player = mpv.MPV(**mpv_options, log_handler=self.log_handler)
         self._log_level = 5
         self.track_list: List[Track] = []
         self.track: Track = Track()

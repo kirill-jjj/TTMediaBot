@@ -29,6 +29,7 @@ dependencies = [
     "yandex-music ~= 2.0.1",
     "youtube-search-python ~= 1.6.6",
     "yt-dlp ~= 2025.6.30",
+    "python-mpv ~= 1.0.8",
 ]
 
 [project.urls]
